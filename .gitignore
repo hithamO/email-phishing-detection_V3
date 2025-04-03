@@ -1,0 +1,10 @@
+venv/ 
+cache/ 
+__pycache__/ 
+*.pyc 
+*.db 
+*.db-journal 
+*.log 
+*.o 
+*.so 
+*.dll 

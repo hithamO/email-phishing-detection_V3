@@ -1,0 +1,14 @@
+aiohttp>=3.8.0,<4.0.0        # For asynchronous HTTP requests (VirusTotal, AI API)
+python-Levenshtein>=0.12.0  # For typosquatting detection (string similarity)
+dnspython>=2.0.0            # For DNS lookups (DMARC policy checks)
+colorama>=0.4.0             # For cross-platform colored terminal output
+extract-msg>=0.30.0         # For parsing Microsoft Outlook .msg files
+Pillow>=9.0.0               # Python Imaging Library (Fork) - For OCR image processing
+pytesseract>=0.3.8          # Python wrapper for Google's Tesseract-OCR engine
+aiosqlite>=0.17.0           # Asynchronous interface for SQLite databases (caching)
+
+# Notes:
+# - Ensure Tesseract-OCR engine is installed separately on your system for pytesseract to work.
+#   See: https://github.com/tesseract-ocr/tesseract
+# - Install Tesseract language packs needed (e.g., 'eng', 'fra') based on config.py OCR_LANGUAGES setting.
+# - Version specifiers (>=, <) are examples; adjust based on compatibility needs.
