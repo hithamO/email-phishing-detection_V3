@@ -13,6 +13,7 @@ import ipaddress # For IP address validation
 import io # For handling bytes data with Pillow
 import base64 # For potential future VT URL ID generation
 from config.config import CONFIG
+import os 
 
 # External libraries - install required: aiohttp, python-Levenshtein, dnspython, Pillow, pytesseract, aiosqlite
 try:
@@ -962,11 +963,25 @@ async def analyze_body(msg: EmailMessage, vt_client: VirusTotalClient, session: 
         if msg.is_multipart():
             for part in msg.walk():
                 content_type = part.get_content_type()
-                content_disposition = str(part.get("Content-Disposition", "")).lower() # Ensure lowercase check
 
-                # Skip attachments or parts explicitly marked as attachments
-                if part.is_attachment() or "attachment" in content_disposition:
+                # Get the raw content disposition header object or None
+                disposition_header = part.get("Content-Disposition")
+
+                # Safely convert to lowercase string for simple check, default to empty string if None
+                content_disposition_str = str(disposition_header).lower() if disposition_header else "" # <<< Define the string variable
+                # Get the filename safely
+                filename = part.get_filename()
+
+                # Check if disposition *string* indicates attachment OR if a filename exists
+                # Now uses the correctly defined 'content_disposition_str' variable
+                is_likely_attachment = "attachment" in content_disposition_str or bool(filename) # <<< Uses correct variable
+                # -----------------------------------------
+
+                # --- CORRECTED Skip Logic ---
+                # Skip parts that are containers or likely attachments
+                if part.is_multipart() or is_likely_attachment: # <<< Correct check applied here
                     continue
+                # ----------------------------
 
                 # Prefer text/plain and text/html parts
                 if content_type == "text/plain" and text_content is None: # Get first plain text part

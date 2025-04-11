@@ -131,7 +131,7 @@ def format_vt_result(result: Optional[Dict[str, Any]]) -> str:
     reputation = attributes.get("reputation")
     rep_str = ""
     if reputation is not None:
-         rep_color = COLORS['success'] if reputation > 0 else COLORS['warning'] if reputation == 0 else COLORS['error']
+         rep_color = COLORS['verdict_clean'] if reputation > 0 else COLORS['warning'] if reputation == 0 else COLORS['error']
          rep_str = f" Rep:{rep_color}{reputation}{verdict_color}" # Use verdict color for context
 
     # Add total votes if available (useful for URLs)
@@ -334,7 +334,7 @@ def print_body(body: Optional[Dict[str, Any]], verbose: bool) -> None:
             status = info.get('link_domains_match_status', 'N/A')
             # Color code status
             if status == 'match':
-                status_color = COLORS['success']
+                status_color = COLORS['verdict_clean']
             elif status == 'mismatch':
                 status_color = COLORS['error']
             elif status in ['no_mentioned_brand_links', 'no_links_to_check']:
